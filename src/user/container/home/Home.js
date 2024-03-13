@@ -1,7 +1,7 @@
 import React from "react";
-import OwlCarousel from "react-owl-carousel";
-import "owl.carousel/dist/assets/owl.carousel.css";
-import "owl.carousel/dist/assets/owl.theme.default.css";
+import OwlCarousel from 'react-owl-carousel';
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
 
 export default function Home() {
   let owl = {
@@ -994,7 +994,10 @@ export default function Home() {
       <div className="container-fluid vesitable py-5">
         <div className="container py-5">
           <h1 className="mb-0">Fresh Organic Vegetables</h1>
-          <div className="owl-carousel vegetable-carousel justify-content-center">
+          <OwlCarousel
+            {...owl}
+            className="owl-carousel vegetable-carousel justify-content-center"
+          >
             <div className="border border-primary rounded position-relative vesitable-item">
               <div className="vesitable-img">
                 <img
@@ -1251,7 +1254,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
+          </OwlCarousel>
         </div>
       </div>
       {/* Vesitable Shop End */}
