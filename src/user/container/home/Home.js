@@ -1,7 +1,7 @@
 import React from "react";
-import OwlCarousel from 'react-owl-carousel';
-import 'owl.carousel/dist/assets/owl.carousel.css';
-import 'owl.carousel/dist/assets/owl.theme.default.css';
+import OwlCarousel from "react-owl-carousel";
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel/dist/assets/owl.theme.default.css";
 
 export default function Home() {
   let owl = {
@@ -13,8 +13,8 @@ export default function Home() {
     margin: 25,
     nav: true,
     navText: [
-      '   <i class="bi bi-arrow-left"></i>',
-      '    <i class="bi bi-arrow-right"></i>',
+      ' <div class="owl-prev"> <i class="bi bi-arrow-left"></i></div>',
+      '  <div class="owl-next">  <i class="bi bi-arrow-right"></i></div>',
     ],
     responsiveClass: true,
     responsive: {
@@ -45,8 +45,8 @@ export default function Home() {
     margin: 25,
     nav: true,
     navText: [
-      '   <i class="bi bi-arrow-left"></i>',
-      '    <i class="bi bi-arrow-right"></i>',
+      '  <div class="owl-prev"> <i class="bi bi-arrow-left"></i></div>',
+      '  <div class="owl-next">  <i class="bi bi-arrow-right"></i></div>',
     ],
 
     responsiveClass: true,
@@ -1677,7 +1677,7 @@ export default function Home() {
             <h4 className="text-primary">Our Testimonial</h4>
             <h1 className="display-5 mb-5 text-dark">Our Client Saying!</h1>
           </div>
-          <div className="owl-carousel testimonial-carousel">
+          <OwlCarousel {...tes} className="owl-carousel testimonial-carousel">
             <div className="testimonial-item img-border-radius bg-light rounded p-4">
               <div className="position-relative">
                 <i
@@ -1786,7 +1786,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
+          </OwlCarousel>
         </div>
       </div>
       {/* Tastimonial End */}

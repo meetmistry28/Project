@@ -16,15 +16,14 @@ function App() {
       <Header />
 
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/shop_details" element={<Shopdetails />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/chackout" element={<Checkout />} />
-        <Route path="/testimonial" element={<Testimonial />} />
-        <Route path="/errorpage" element={<Errorpage />} />   
-        <Route path="/contact" element={<Contact />} />
-
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/shop" element={<Shop />} />
+        <Route exact path="/shop_details" element={<Shopdetails />} />
+        <Route exact path="/cart" element={<Cart />} />
+        <Route exact path="/chackout" element={<Checkout />} />
+        <Route exact path="/testimonial" element={<Testimonial />} />
+        <Route exact path="/errorpage" element={<Errorpage />} />
+        <Route exact path="/contact" element={<Contact />} />
       </Routes>
 
       <Footer />
