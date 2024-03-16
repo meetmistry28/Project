@@ -64,5 +64,11 @@
         "details": "Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt",
         "price":"1.99"
       }
+    ],
+    "Categories" : [
+      {
+        
+      }
     ]
+
 }

@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Shop() {
   const [productData, setProductData] = useState([]);
+  const [search, setSearch] = useState("");
+  const [textData, setText] = useState([]);
   const [catgery, setcatgery] = useState([]);
+  const [sort, setShort] = useState("");
+
+
   const fetchData = async () => {
     try {
       const response = await fetch("http://localhost:8000/fruit");
@@ -23,6 +28,22 @@ export default function Shop() {
     fetchData();
   });
 
+  let fData = textData.filter(
+    (v) =>
+      v.text.toLowerCase().includes(search) ||
+      v.author.toLowerCase().includes(search)
+  );
+
+  fData = fData.sort((a,b) => {
+    if (sort === '0') {
+      return a.text.toLocaleCompere(b.text)
+    } else if (sort === 'saab') {
+      return b.text.toLocaleCompere(a.text)
+    }
+  })
+  // console.log(textData);
+
+  
   return (
     <div>
       {/* Fruits Shop Start*/}
@@ -39,6 +60,7 @@ export default function Shop() {
                       className="form-control p-3"
                       placeholder="keywords"
                       aria-describedby="search-icon-1"
+                      onChange={(event) => setSearch(event.target.value)}
                     />
                     <span id="search-icon-1" className="input-group-text p-3">
                       <i className="fa fa-search" />
@@ -55,7 +77,7 @@ export default function Shop() {
                       className="border-0 form-select-sm bg-light me-3"
                       form="fruitform"
                     >
-                      <option value="volvo">Nothing</option>
+                      <option value="0">Nothing</option>
                       <option value="saab">Popularity</option>
                       <option value="opel">Organic</option>
                       <option value="audi">Fantastic</option>
@@ -81,7 +103,7 @@ export default function Shop() {
                                   <span>
                                     {
                                       productData.filter(
-                                        (v) => v.name == catgery
+                                        (v) => v.name === catgery
                                       ).length
                                     }
                                   </span>
@@ -292,27 +314,42 @@ export default function Shop() {
                 </div>
                 <div className="col-lg-9">
                   <div className="row g-4 justify-content-center">
-                  {
-                      productData.map((product) => (
-                        <div className="col-md-6 col-lg-6 col-xl-4">
-                          <Link to={`/shop/${product.id}`}>
-                            <div className="rounded position-relative fruite-item">
-                              <div className="fruite-img">
-                                <img src={product.img} className="img-fluid w-100 rounded-top" />
-                              </div>
-                              <div className="text-white bg-secondary px-3 py-1 rounded position-absolute" style={{ top: 10, left: 10 }}>Fruits</div>
-                              <div className="p-4 border border-secondary border-top-0 rounded-bottom">
-                                <h4>{product.name}</h4>
-                                <p>{product.details}</p>
-                                <div className="d-flex justify-content-between flex-lg-wrap">
-                                  <p className="text-dark fs-5 fw-bold mb-0">${product.price} / kg</p>
-                                  <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary" /> Add to cart</a>
-                                </div>
+                    {productData.map((product) => (
+                      <div className="col-md-6 col-lg-6 col-xl-4">
+                        <Link to={`/shop/${product.id}`}>
+                          <div className="rounded position-relative fruite-item">
+                            <div className="fruite-img">
+                              <img
+                                src={product.img}
+                                className="img-fluid w-100 rounded-top"
+                              />
+                            </div>
+                            <div
+                              className="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                              style={{ top: 10, left: 10 }}
+                            >
+                              Fruits
+                            </div>
+                            <div className="p-4 border border-secondary border-top-0 rounded-bottom">
+                              <h4>{product.name}</h4>
+                              <p>{product.details}</p>
+                              <div className="d-flex justify-content-between flex-lg-wrap">
+                                <p className="text-dark fs-5 fw-bold mb-0">
+                                  ${product.price} / kg
+                                </p>
+                                <a
+                                  href="#"
+                                  className="btn border border-secondary rounded-pill px-3 text-primary"
+                                >
+                                  <i className="fa fa-shopping-bag me-2 text-primary" />{" "}
+                                  Add to cart
+                                </a>
                               </div>
                             </div>
-                          </Link>
-                        </div>
-                      ))}
+                          </div>
+                        </Link>
+                      </div>
+                    ))}
 
                     <div className="col-12">
                       <div className="pagination d-flex justify-content-center mt-5">

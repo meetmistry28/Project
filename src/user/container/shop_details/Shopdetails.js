@@ -36,7 +36,7 @@ export default function Shopdetails(props) {
                   <div className="border rounded">
                     <a href="#">
                       <img
-                        src={`.../$fruidetlis?.img`}
+                        src={`.../$fruidetlis.img`}
                         className="img-fluid rounded"
                         alt="Image"
                       />
@@ -44,9 +44,9 @@ export default function Shopdetails(props) {
                   </div>
                 </div>
                 <div className="col-lg-6">
-                  <h4 className="fw-bold mb-3">{fruidetlis?.name}</h4>
-                  <p className="mb-3">{fruidetlis?.details}</p>
-                  <h5 className="fw-bold mb-3">{fruidetlis?.price}</h5>
+                  <h4 className="fw-bold mb-3">{fruidetlis.name}</h4>
+                  <p className="mb-3">{fruidetlis.details}</p>
+                  <h5 className="fw-bold mb-3">{fruidetlis.price}</h5>
                   <div className="d-flex mb-4">
                     <i className="fa fa-star text-secondary" />
                     <i className="fa fa-star text-secondary" />
