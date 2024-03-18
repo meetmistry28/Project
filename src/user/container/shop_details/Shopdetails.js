@@ -8,15 +8,15 @@ export default function Shopdetails(props) {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:8000/fruit");
+      const response = await fetch("http://localhost:8000/furits");
       const data = await response.json();
 
       console.log(data, id);
 
-      const fruidetlisdData = data.find((v) => v.id === id);
+      const fruidetlisdData = data.find((v) => v.id == id);
       setFruidetlis(fruidetlisdData);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error( error);
     }
   };
 
@@ -36,7 +36,7 @@ export default function Shopdetails(props) {
                   <div className="border rounded">
                     <a href="#">
                       <img
-                        src={`.../$fruidetlis.img`}
+                        src={`../${fruidetlis.image}`}
                         className="img-fluid rounded"
                         alt="Image"
                       />
@@ -45,7 +45,7 @@ export default function Shopdetails(props) {
                 </div>
                 <div className="col-lg-6">
                   <h4 className="fw-bold mb-3">{fruidetlis.name}</h4>
-                  <p className="mb-3">{fruidetlis.details}</p>
+                  <p className="mb-3">{fruidetlis.description}</p>
                   <h5 className="fw-bold mb-3">{fruidetlis.price}</h5>
                   <div className="d-flex mb-4">
                     <i className="fa fa-star text-secondary" />

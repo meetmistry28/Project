@@ -18,10 +18,14 @@ export default function UserRoutes() {
 
       <Routes>
         <Route exact path="/" element={<Home />} />
-        <Route exact path="/shop" element={<Shop />} />
-        <Route exact path="/shop/:id" element={<Shopdetails />} />
-        <Route exact path="/cart" element={<Cart />} />
-        <Route exact path="/chackout" element={<Checkout />} />
+
+        <Route>
+          <Route exact path="/shop" element={<Shop />} />
+          <Route exact path="/shop/:id" element={<Shopdetails />} />
+          <Route exact path="/cart" element={<Cart />} />
+          <Route exact path="/chackout" element={<Checkout />} />
+        </Route>
+
         <Route exact path="/testimonial" element={<Testimonial />} />
         <Route exact path="/errorpage" element={<Errorpage />} />
         <Route exact path="/contact" element={<Contact />} />
