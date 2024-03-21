@@ -8,7 +8,7 @@ import Cart from "../../user/container/pages/Cart";
 import Checkout from "../../user/container/pages/Checkout";
 import Testimonial from "../../user/container/pages/Testimonial";
 import Errorpage from "../../user/container/pages/Errorpage";
-import Contact from "../../user/container/pages/Contact";
+import Contact from "../../user/container/contact/Contact";
 import Footer from "../../user/component/footer/Footer";
 
 export default function UserRoutes() {

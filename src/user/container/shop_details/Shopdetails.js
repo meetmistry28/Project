@@ -8,7 +8,7 @@ export default function Shopdetails(props) {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:8000/furits");
+      const response = await fetch("http://localhost:8000/fruit");
       const data = await response.json();
 
       console.log(data, id);
@@ -36,7 +36,7 @@ export default function Shopdetails(props) {
                   <div className="border rounded">
                     <a href="#">
                       <img
-                        src={`../${fruidetlis.image}`}
+                        src={`../${fruidetlis.img}`}
                         className="img-fluid rounded"
                         alt="Image"
                       />
