@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
+import { DataGrid } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -6,96 +7,206 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { object, string, number, date, InferType } from "yup";
 import { useFormik } from "formik";
+import { object, string, number, date, InferType } from "yup";
+import { IconButton } from "@mui/material";
+import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
+import EditNoteIcon from "@mui/icons-material/EditNote";
 
-export default function Category() {
-  const [open, setOpen] = React.useState(false);
-  let contectSchema = object({
-    name: string().required(),
-    message: string().required().min(10),
+function Category(props) {
+  const [data, setData] = useState([]);
+  const [edit, setEdit] = useState(null);
+  console.log(edit);
+
+  let userSchema = object({
+    name: string()
+      .required()
+      .matches(/^[a-zA-Z'-\s]*$/),
+    description: string().required().min(10, "least 10 characters"),
   });
+  const Inu = Math.floor(Math.random() * 1000);
 
+  const handaladd = (values) => {
+    console.log(values);
+
+    let localdata = JSON.parse(localStorage.getItem("category"));
+    if (localdata) {
+      localdata.push({ ...values, id: Inu });
+      localStorage.setItem("category", JSON.stringify(localdata));
+    } else {
+      localStorage.setItem(
+        "category",
+        JSON.stringify([{ ...values, id: Inu }])
+      );
+    }
+    getdata();
+  };
+
+  const getdata = () => {
+    const categorygetdata = JSON.parse(localStorage.getItem("category"));
+    if (categorygetdata) {
+      setData(categorygetdata);
+    }
+  };
+  const handleUpdate = (data) => {
+    let localdata = JSON.parse(localStorage.getItem("category"));
+    let index = localdata.findIndex((v) => v.id === data.id);
+    localdata[index] = data;
+    localStorage.setItem("category", JSON.stringify(localdata));
+    getdata();
+  };
+
+  useEffect(() => {
+    getdata();
+  }, []);
   const formik = useFormik({
     initialValues: {
       name: "",
-      message: "",
+      description: "",
     },
-    validationSchema: contectSchema,
+    validationSchema: userSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      if (edit) {
+        handleUpdate(values);
+      } else {
+        handaladd(values);
+      }
+
+      formik.resetForm();
+      handleClose();
     },
   });
 
-  const { handleSubmit, handleChange, handleBlur, values, touched, errors } =
+  const { handleChange, handleSubmit, handleBlur, values, touched, errors } =
     formik;
 
+  const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    formik.resetForm();
+    setEdit(null);
   };
 
-  return (
-    <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open form dialog
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        PaperProps={{
-          component: "form",
+  const handleDelete = (id) => {
+    let localData = JSON.parse(localStorage.getItem("category"));
+    localData = localData.filter((v) => v.id !== id);
+    localStorage.setItem("category", JSON.stringify(localData));
+    getdata();
+  };
+  const handleEdit = (data) => {
+    console.log("abc", data);
+    formik.setValues(data);
+    setEdit(data);
+    handleClickOpen();
+  };
 
-          onSubmit: (event) => {
-            event.preventDefault();
-            handleClose();
-          },
-        }}
-      >
-        <form onSubmit={handleSubmit}>
-          <DialogTitle>Subscribe</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Add Category</DialogContentText>
-            <TextField
-              margin="dense"
-              id="name"
-              name="name"
-              label="Name"
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.name}
-            />
-            <span style={{ color: "red", marginTop: "-10px" }}>
-              {touched.name && errors.name ? errors.name : ""}
-            </span>
-            <TextField
-              margin="dense"
-              id="description"
-              name="message"
-              label="Description"
-              type="text"
-              fullWidth
-              variant="standard"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.message}
-            />
-            <span style={{ color: "red", marginTop: "-10px" }}>
-              {touched.message && errors.message ? errors.message : ""}
-            </span>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button type="submit">Subscribe</Button>
-          </DialogActions>
-        </form>
-      </Dialog>
-    </React.Fragment>
+  const columns = [
+    { field: "name", headerName: "Name", width: 130 },
+    { field: "description", headerName: "Description", width: 130 },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 100,
+      renderCell: (params) => (
+        <>
+          <IconButton
+            aria-label="delete"
+            color="error"
+            size="large"
+            variant="outlined"
+            onClick={() => handleDelete(params.row.id)}
+          >
+            <DeleteSweepIcon />
+          </IconButton>
+          <IconButton
+            variant="outlined"
+            color="success"
+            onClick={() => handleEdit(params.row)}
+          >
+            <EditNoteIcon />
+          </IconButton>
+        </>
+      ),
+    },
+  ];
+
+  return (
+    <>
+      <h1>Category</h1>
+      <div style={{ textAlign: "end", marginRight: "50px" }}>
+        <React.Fragment>
+          <Button variant="outlined" onClick={handleClickOpen}>
+            Add Product
+          </Button>
+          <Dialog open={open} onClose={handleClose}>
+            <form onSubmit={handleSubmit}>
+              <DialogTitle>Add The Product</DialogTitle>
+              <DialogContent>
+                <TextField
+                  margin="dense"
+                  id="name"
+                  name="name"
+                  label="name"
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.name}
+                  error={errors.name && touched.name ? true : false}
+                  helperText={errors.name && touched.name ? errors.name : ""}
+                  // helperText=""
+                />
+                <TextField
+                  margin="dense"
+                  id="description"
+                  name="description"
+                  label="description"
+                  type="text"
+                  fullWidth
+                  variant="standard"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.description}
+                  error={
+                    errors.description && touched.description ? true : false
+                  }
+                  helperText={
+                    errors.description && touched.description
+                      ? errors.description
+                      : ""
+                  }
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button type="submit">{edit ? "Update" : "Add"}</Button>
+              </DialogActions>
+            </form>
+          </Dialog>
+        </React.Fragment>
+      </div>
+      <br />
+      <br />
+      <div style={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={data}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+        />
+      </div>
+    </>
   );
 }
+
+export default Category;
